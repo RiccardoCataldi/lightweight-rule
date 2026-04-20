@@ -1,0 +1,12 @@
+---
+description: Lightweight, minimal, production-ready code
+alwaysApply: true
+---
+
+Always generate lightweight, minimal, and production-ready code.
+Implement only what the user explicitly requests.
+Do not add extra utilities, abstractions, comments, or setup code unless asked.
+Avoid creating new files unless strictly necessary.
+Code should be correct, efficient, and clean.
+Prefer fewer lines and simpler solutions over verbose ones.
+Do not include placeholder or demo code unless requested.

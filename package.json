@@ -1,0 +1,13 @@
+{
+  "name": "lightweight-rule",
+  "version": "1.0.0",
+  "description": "Install lightweight Cursor rule into .cursor/rules",
+  "bin": {
+    "lightweight-rule": "bin/install.js"
+  },
+  "files": [
+    "bin",
+    "rules"
+  ],
+  "license": "MIT"
+}
