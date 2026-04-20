@@ -6,25 +6,9 @@ Installs the Cursor rule `lightweight.mdc` in the current project folder:
 npx @telesio/lightweight-rule@latest
 ```
 
-## What it does
-
-Copia `rules/lightweight.mdc` in:
-
-```text
-.cursor/rules/lightweight.mdc
-```
-
-## Local development
-
-From the repository root:
+## Publish
 
 ```bash
-node bin/install.js
-```
-
-## Publish npm
-
-```bash
-npm login
+npm version patch --no-git-tag-version
 npm publish --access public
 ```

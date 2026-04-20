@@ -1,12 +1,15 @@
 ---
-description: Lightweight, minimal, production-ready code
+description: Minimal, production-ready code only
 alwaysApply: true
 ---
 
-Always generate lightweight, minimal, and production-ready code.
-Implement only what the user explicitly requests.
-Do not add extra utilities, abstractions, comments, or setup code unless asked.
-Avoid creating new files unless strictly necessary.
-Code should be correct, efficient, and clean.
-Prefer fewer lines and simpler solutions over verbose ones.
-Do not include placeholder or demo code unless requested.
+Implement exactly what the user requests, and nothing more.
+
+Requirements:
+- Keep solutions minimal, correct, efficient, and production-ready.
+- Do not add abstractions, utilities, files, configuration, or dependencies unless strictly required.
+- Do not include placeholder/demo/mock/scaffold code unless explicitly requested.
+- Preserve existing behavior and public APIs unless the user asks to change them.
+- Use the smallest clear implementation that satisfies the request.
+- The less code, the better.
+- Add comments only when essential to understand non-obvious logic.
