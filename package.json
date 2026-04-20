@@ -1,6 +1,6 @@
 {
   "name": "@telesio/lightweight-rule",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Install lightweight Cursor rule into .cursor/rules",
   "bin": {
     "lightweight-rule": "bin/install.js"
