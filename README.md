@@ -3,7 +3,7 @@
 Installs the Cursor rule `lightweight.mdc` in the current project folder:
 
 ```bash
-npx lightweight-rule
+npx @telesio/lightweight-rule@latest
 ```
 
 ## What it does
