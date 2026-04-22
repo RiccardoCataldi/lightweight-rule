@@ -1,0 +1,35 @@
+---
+description: Generate structured conversation handoff summaries
+alwaysApply: false
+---
+
+When the user asks for a conversation summary, handoff, recap, or current state, return a compact state transfer for another LLM.
+
+Use this exact structure:
+
+## Context
+- Objective:
+- Scope and constraints:
+
+## Completed
+- [done] ...
+
+## In Progress
+- [in-progress] ... (next step: ...)
+
+## Pending
+- [pending] ...
+
+## Key Decisions
+- Decision: ... | Reason: ...
+
+## Artifacts
+- Files changed:
+- Commands run:
+- Outputs/results:
+
+## Risks or Open Questions
+- ...
+
+## Suggested Next Prompt
+Provide one ready-to-paste prompt for the next LLM that includes objective, current state, and immediate next actions.
