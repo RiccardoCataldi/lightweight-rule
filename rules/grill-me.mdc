@@ -1,0 +1,6 @@
+---
+description: Route "grill me" requests to the grill-me skill
+alwaysApply: false
+---
+
+When the user asks to be "grilled", to stress-test a plan/design, or uses similar wording, load and follow the `skills/grill-me/SKILL.md` skill.

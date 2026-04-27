@@ -1,0 +1,6 @@
+---
+description: Route PRD creation requests to the to-prd skill
+alwaysApply: false
+---
+
+When the user asks to create a PRD from the current context, to turn the conversation into a PRD, or uses "to-prd", load and follow the `skills/to-prd/SKILL.md` skill.
