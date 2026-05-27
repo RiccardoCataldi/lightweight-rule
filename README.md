@@ -1,10 +1,23 @@
 # lightweight-rule
 
-Installs the Cursor rule `lightweight.mdc` in the current project folder:
+Installs rules + skills for Cursor and/or Claude:
 
 ```bash
 npx @telesio/lightweight-rule@latest
 ```
+
+Interactive prompt lets you choose:
+- Cursor (local): `./.cursor/...`
+- Cursor (global): `~/.cursor/...`
+- Claude (local): `./.claude/...`
+- Claude (global): `~/.claude/...`
+
+Flags (non-interactive):
+- `--cursor-local`
+- `--cursor-global`
+- `--claude-local`
+- `--claude-global` (or `--claude`)
+- `--all`
 
 ## Publish
 
