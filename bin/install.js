@@ -4,9 +4,7 @@ const path = require("path");
 const os = require("os");
 const readline = require("readline");
 
-const rulesDir = path.join(__dirname, "..", "rules");
 const skillsDir = path.join(__dirname, "..", "skills");
-const rules = fs.readdirSync(rulesDir).filter((file) => file.endsWith(".mdc"));
 const skills = fs
   .readdirSync(skillsDir, { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(skillsDir, entry.name, "SKILL.md")))
@@ -31,8 +29,8 @@ function printHelp() {
       "Usage: npx @telesio/lightweight-rule@latest [options]",
       "",
       "Options:",
-      "  --cursor-local    Install into ./.cursor (repo-local)",
-      "  --cursor-global   Install into ~/.cursor (global)",
+      "  --cursor-local    Install into ./.cursor/skills (repo-local)",
+      "  --cursor-global   Install into ~/.cursor/skills (global)",
       "  --claude-local    Install into ./.claude/skills (repo-local)",
       "  --claude-global   Install into ~/.claude/skills (global)",
       "  --claude          Alias for --claude-global",
@@ -76,8 +74,8 @@ async function chooseTargets(args) {
     return { cursorLocal: true, cursorGlobal: false, claudeLocal: false, claudeGlobal: false };
 
   console.log("Install targets:");
-  console.log("  1) Cursor (local)  (./.cursor/rules + ./.cursor/skills)");
-  console.log("  2) Cursor (global) (~/.cursor/rules + ~/.cursor/skills-cursor)");
+  console.log("  1) Cursor (local)  (./.cursor/skills)");
+  console.log("  2) Cursor (global) (~/.cursor/skills)");
   console.log("  3) Claude (local)  (./.claude/skills)");
   console.log("  4) Claude (global) (~/.claude/skills)");
   console.log("");
@@ -107,63 +105,27 @@ async function chooseTargets(args) {
   return { cursorLocal, cursorGlobal, claudeLocal, claudeGlobal };
 }
 
-function installCursorLocal() {
-  const targetRulesDir = path.join(process.cwd(), ".cursor", "rules");
-  const targetSkillsDir = path.join(process.cwd(), ".cursor", "skills");
-
-  fs.mkdirSync(targetRulesDir, { recursive: true });
-  for (const rule of rules) {
-    fs.copyFileSync(path.join(rulesDir, rule), path.join(targetRulesDir, rule));
-  }
-
+function installSkills(targetSkillsDir) {
   fs.mkdirSync(targetSkillsDir, { recursive: true });
   for (const skill of skills) {
     fs.cpSync(path.join(skillsDir, skill), path.join(targetSkillsDir, skill), { recursive: true });
   }
 }
 
-function installCursorGlobal() {
-  const cursorDir = path.join(os.homedir(), ".cursor");
-  const targetRulesDir = path.join(cursorDir, "rules");
-  const targetSkillsDir = path.join(cursorDir, "skills-cursor");
-
-  fs.mkdirSync(targetRulesDir, { recursive: true });
-  for (const rule of rules) {
-    fs.copyFileSync(path.join(rulesDir, rule), path.join(targetRulesDir, rule));
-  }
-
-  fs.mkdirSync(targetSkillsDir, { recursive: true });
-  for (const skill of skills) {
-    fs.cpSync(path.join(skillsDir, skill), path.join(targetSkillsDir, skill), { recursive: true });
-  }
-}
-
-function installClaude() {
-  const targetClaudeSkillsDir = path.join(os.homedir(), ".claude", "skills");
-  fs.mkdirSync(targetClaudeSkillsDir, { recursive: true });
-
-  for (const skill of skills) {
-    fs.cpSync(path.join(skillsDir, skill), path.join(targetClaudeSkillsDir, skill), { recursive: true });
-  }
-}
-
-function installClaudeLocal() {
-  const targetClaudeSkillsDir = path.join(process.cwd(), ".claude", "skills");
-  fs.mkdirSync(targetClaudeSkillsDir, { recursive: true });
-
-  for (const skill of skills) {
-    fs.cpSync(path.join(skillsDir, skill), path.join(targetClaudeSkillsDir, skill), { recursive: true });
-  }
+function logInstalled(label, dest) {
+  if (skills.length === 0) console.log("No skills found in package skills folder.");
+  else console.log(`\ninstalled ${skills.length} ${label} skill(s): ${skills.join(", ")}`);
+  if (dest) console.log(`to ${dest}`);
 }
 
 (async () => {
   const args = parseArgs(process.argv);
   const targets = await chooseTargets(args);
 
-  if (targets.cursorLocal) installCursorLocal();
-  if (targets.cursorGlobal) installCursorGlobal();
-  if (targets.claudeLocal) installClaudeLocal();
-  if (targets.claudeGlobal) installClaude();
+  if (targets.cursorLocal) installSkills(path.join(process.cwd(), ".cursor", "skills"));
+  if (targets.cursorGlobal) installSkills(path.join(os.homedir(), ".cursor", "skills"));
+  if (targets.claudeLocal) installSkills(path.join(process.cwd(), ".claude", "skills"));
+  if (targets.claudeGlobal) installSkills(path.join(os.homedir(), ".claude", "skills"));
 
   const didSomething = targets.cursorLocal || targets.cursorGlobal || targets.claudeLocal || targets.claudeGlobal;
   if (!didSomething) {
@@ -171,34 +133,10 @@ function installClaudeLocal() {
     process.exit(0);
   }
 
-  if (targets.cursorLocal) {
-    if (rules.length === 0) console.log("No .mdc rules found in package rules folder.");
-    else console.log(`\ninstalled ${rules.length} Cursor (local) rule(s): ${rules.join(", ")}`);
-
-    if (skills.length === 0) console.log("No skills found in package skills folder.");
-    else console.log(`installed ${skills.length} Cursor (local) skill(s): ${skills.join(", ")}`);
-  }
-
-  if (targets.cursorGlobal) {
-    if (rules.length === 0) console.log("No .mdc rules found in package rules folder.");
-    else console.log(`\ninstalled ${rules.length} Cursor (global) rule(s): ${rules.join(", ")}`);
-
-    if (skills.length === 0) console.log("No skills found in package skills folder.");
-    else console.log(`installed ${skills.length} Cursor (global) skill(s): ${skills.join(", ")}`);
-    console.log(`to ${path.join(os.homedir(), ".cursor")}`);
-  }
-
-  if (targets.claudeLocal) {
-    if (skills.length === 0) console.log("No skills found in package skills folder.");
-    else console.log(`\ninstalled ${skills.length} Claude (local) skill(s): ${skills.join(", ")}`);
-    console.log(`to ${path.join(process.cwd(), ".claude", "skills")}`);
-  }
-
-  if (targets.claudeGlobal) {
-    if (skills.length === 0) console.log("No skills found in package skills folder.");
-    else console.log(`\ninstalled ${skills.length} Claude (global) skill(s): ${skills.join(", ")}`);
-    console.log(`to ${path.join(os.homedir(), ".claude", "skills")}`);
-  }
+  if (targets.cursorLocal) logInstalled("Cursor (local)");
+  if (targets.cursorGlobal) logInstalled("Cursor (global)", path.join(os.homedir(), ".cursor", "skills"));
+  if (targets.claudeLocal) logInstalled("Claude (local)", path.join(process.cwd(), ".claude", "skills"));
+  if (targets.claudeGlobal) logInstalled("Claude (global)", path.join(os.homedir(), ".claude", "skills"));
 })().catch((err) => {
   console.error(err);
   process.exit(1);
