@@ -58,6 +58,7 @@ Flags (non-interactive):
 - **triage** — Move issues through triage states, verify claims, grill if needed, write agent-ready briefs.
 - **handoff** — Compact this conversation into a document another agent can pick up.
 - **caveman** — Ultra-compressed replies to cut tokens while staying technically accurate.
+- **ponytail** — Lazy senior-dev mode: the smallest change that fully solves the task. From [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
 
 ## Publish
 
