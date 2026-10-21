@@ -59,6 +59,7 @@ Flags (non-interactive):
 - **handoff** — Compact this conversation into a document another agent can pick up.
 - **caveman** — Ultra-compressed replies to cut tokens while staying technically accurate.
 - **ponytail** — Lazy senior-dev mode: the smallest change that fully solves the task.
+- **security-audit** — Source-first security review: guidance for focused questions, or a full six-phase audit (recon, hunting, adversarial validation, verified report) on explicit request.
 
 ## Publish
 
